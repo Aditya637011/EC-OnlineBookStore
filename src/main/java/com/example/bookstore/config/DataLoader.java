@@ -6,6 +6,8 @@ import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.repository.ReviewRepository;
 import com.example.bookstore.repository.CartItemRepository;
 import com.example.bookstore.repository.CouponRepository;
+import com.example.bookstore.repository.BannerRepository;
+import com.example.bookstore.entity.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +21,30 @@ public class DataLoader {
 
         @Bean
         CommandLineRunner initDatabase(BookRepository bookRepository, ReviewRepository reviewRepository,
-                        CartItemRepository cartItemRepository, CouponRepository couponRepository) {
+                        CartItemRepository cartItemRepository, CouponRepository couponRepository,
+                        BannerRepository bannerRepository) {
                 return args -> {
+                        if (bannerRepository.count() == 0) {
+                                Banner b1 = new Banner();
+                                b1.setTitle("Grand Book Sale");
+                                b1.setDescription("Get up to 50% off on all bestsellers this summer!");
+                                b1.setImageUrl("/banner1.png");
+                                b1.setLink("#");
+                                Banner b2 = new Banner();
+                                b2.setTitle("Upcoming Mystery");
+                                b2.setDescription("Pre-order 'The Mystery of Shadows' now for exclusive early access.");
+                                b2.setImageUrl("/banner2.png");
+                                b2.setLink("#");
+                                Banner b3 = new Banner();
+                                b3.setTitle("New Arrivals");
+                                b3.setDescription("Explore the freshest reads curated just for you.");
+                                b3.setImageUrl("/banner3.png");
+                                b3.setLink("#");
+                                bannerRepository.save(b1);
+                                bannerRepository.save(b2);
+                                bannerRepository.save(b3);
+                                System.out.println("Banners Seeded!");
+                        }
                         if (couponRepository.count() == 0) {
                                 Coupon c1 = new Coupon();
                                 c1.setCode("WELCOME20");

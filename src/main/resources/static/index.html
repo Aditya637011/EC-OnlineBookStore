@@ -157,9 +157,11 @@
             padding: 0.75rem 1rem;
             border-radius: 12px;
             border: 1px solid var(--border);
-            background: var(--background);
+            background: var(--surface-light);
             color: var(--text);
             cursor: pointer;
+            width: 100%;
+            margin-bottom: 1rem;
         }
 
         /* Main Layout */
@@ -443,6 +445,246 @@
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: none;
+            margin: 0 0 1.5rem 0;
+            border-radius: 0;
+            border-bottom: 2px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 100 / 25;
+            /* Sleeker, flatter ratio for desktop */
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            width: 33.333%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .indicator-wrap {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.75rem;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .indicator.active {
+            background: var(--primary);
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .carousel-container {
+                width: 95%;
+                aspect-ratio: 16 / 9;
+                border-radius: 16px;
+                margin: 1rem auto;
+            }
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 900px) {
+            .main {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            aside {
+                display: none;
+            }
+
+            aside.mobile-open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 1001;
+                background: var(--background);
+                padding: 2rem;
+                overflow-y: auto;
+            }
+
+            .detail-row {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-actions .btn-box,
+            .nav-actions .hide-mobile,
+            .desktop-btns {
+                display: none !important;
+            }
+
+            .nav {
+                padding: 0.75rem 4%;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-wrap {
+                min-width: 100%;
+            }
+        }
+
+        .hamburger-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            margin-right: -10px;
+            /* Offset padding for extreme right look */
+            border-radius: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .hamburger-btn {
+                display: flex;
+            }
+        }
+
+        .menu-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .menu-item-row i {
+            width: 24px;
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .nav {
+                padding: 0.75rem 3%;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            /* Hide "Pro" text on very small screens */
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+
+            .card-img {
+                height: 180px;
+            }
+
+            .sidebar-modal {
+                width: 100vw;
+                max-width: 100vw;
+            }
+        }
+
+        .mobile-filter-btn {
+            display: none;
+            background: var(--primary);
+            color: var(--background);
+            padding: 0.75rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .mobile-filter-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+        }
+
+        .close-aside {
+            display: none;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            aside.mobile-open .close-aside {
+                display: block;
+            }
+
+            .nav-actions-mobile {
+                display: block !important;
+            }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--background);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -451,15 +693,15 @@
     <nav class="nav">
         <a href="#" class="logo" onclick="location.reload()">
             <img src="/logo.png" alt="Logo" style="height: 32px; border-radius: 6px;">
-            Bookstore<span style="color:var(--secondary)">Pro</span>
+            Bookstore<span>Pro</span>
         </a>
         <div class="nav-actions">
             <!-- Action Icons Group -->
-            <div style="display: flex; gap: 0.75rem;">
-                <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button class="btn-icon hide-mobile" onclick="toggleTheme()" title="Toggle Theme">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <button class="btn-icon" onclick="openSidebar('orderHistory')" title="Order History">
+                <button class="btn-icon hide-mobile" onclick="openSidebar('orderHistory')" title="Order History">
                     <i class="fas fa-history"></i>
                 </button>
                 <button class="btn-icon" onclick="openSidebar('wishlistSidebar')" title="Wishlist">
@@ -470,46 +712,61 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="badge" id="cartBadge">0</span>
                 </button>
+                <!-- Hamburger for mobile -->
+                <button class="hamburger-btn" onclick="openSidebar('mobileMenu')">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
 
-            <div style="height: 24px; width: 1px; background: var(--border); margin: 0 0.5rem;"></div>
-
-            <!-- Login/Admin Buttons Group -->
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div class="desktop-btns" style="display: flex; gap: 0.75rem; align-items: center;">
+                <div style="height: 24px; width: 1px; background: var(--border); margin: 0 0.5rem;"></div>
                 <a href="/admin.html" class="btn-box"
                     style="background: transparent; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.85rem; padding: 0.6rem 1.2rem; width: auto; height: 40px; border-radius: 12px;">
                     <i class="fas fa-lock" style="font-size: 0.8rem; margin-right: 4px;"></i> Admin
                 </a>
-                <button class="btn-box btn-fill" onclick="openAuth()" id="loginBtn"
-                    style="padding: 0.6rem 1.2rem; width: auto; height: 40px; border-radius: 12px; font-size: 0.85rem;">
-                    <i class="fas fa-user-circle"></i> Login
-                </button>
+                <div id="authBtnContainer">
+                    <button class="btn-box btn-fill" onclick="openAuth()" id="loginBtn"
+                        style="padding: 0.6rem 1.2rem; width: auto; height: 40px; border-radius: 12px; font-size: 0.85rem;">
+                        <i class="fas fa-user-circle"></i> Login
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="controls">
-        <div class="search-wrap">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search by title, author, or keywords..."
-                onkeyup="fetchBooks()">
+    <div class="controls"
+        style="padding: 1rem 1.5rem; width: 100%; margin: 0; background: var(--surface); border-bottom: 1px solid var(--border);">
+        <div class="search-wrap" style="display: flex; gap: 0.8rem; align-items: center; width: 100%; margin: 0;">
+            <div style="position: relative; flex: 1;">
+                <i class="fas fa-search"
+                    style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                <input type="text" id="searchInput" placeholder="Search by series, author or title..."
+                    style="width: 100%; padding: 0.9rem 1rem 0.9rem 3rem; border-radius: 12px; border: 1px solid var(--border); background: var(--background); color: var(--text); font-size: 1rem;"
+                    onkeyup="fetchBooks()">
+            </div>
+            <button class="btn-icon"
+                style="background: var(--primary); color: var(--background); width: 48px; height: 48px; border-radius: 12px;"
+                onclick="openSidebar('filterSidebar')">
+                <i class="fas fa-sliders-h"></i>
+            </button>
         </div>
-        <select class="filter-select" id="sortBy" onchange="fetchBooks()">
-            <option value="">Sort By: Relevance</option>
-            <option value="priceAsc">Price: Low to High</option>
-            <option value="priceDesc">Price: High to Low</option>
-            <option value="ratingDesc">Top Rated</option>
-        </select>
-        <div style="display:flex; align-items:center; gap:0.5rem; color:var(--text-muted);">
-            Price: <input type="number" id="minPrice" placeholder="0" class="filter-select" style="width:80px;"
-                onchange="fetchBooks()">
-            - <input type="number" id="maxPrice" placeholder="2000" class="filter-select" style="width:100px;"
-                onchange="fetchBooks()">
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- Dynamic Banners -->
+        </div>
+        <div class="indicator-wrap" id="indicatorWrap">
+            <!-- Dynamic Indicators -->
         </div>
     </div>
 
     <main class="main">
-        <aside>
+        <div class="mobile-filter-btn" onclick="toggleFilters()">
+            <i class="fas fa-filter"></i> Browse Categories & Filters
+        </div>
+        <aside id="sidebarContent">
+            <i class="fas fa-times close-aside" onclick="toggleFilters()"></i>
             <div class="sidebar-section">
                 <h3 class="sidebar-title">Categories</h3>
                 <div id="categoryList">
@@ -522,6 +779,18 @@
                 <div class="cat-item" onclick="setRating(4, this)">4.0+ Stars</div>
                 <div class="cat-item" onclick="setRating(3, this)">3.0+ Stars</div>
             </div>
+            <!-- Mobile Admin/Login links -->
+            <div class="nav-actions-mobile"
+                style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                <h3 class="sidebar-title">Manage Account</h3>
+                <a href="/admin.html" class="btn-box"
+                    style="margin-bottom: 1rem; background: var(--surface-light); text-decoration: none; color: var(--text); height: 50px; border-radius: 12px;">
+                    <i class="fas fa-lock"></i> Admin Dashboard
+                </a>
+                <button class="btn-box btn-fill" onclick="openAuth()" style="height: 50px; border-radius: 12px;">
+                    <i class="fas fa-user-circle"></i> Login / Register
+                </button>
+            </div>
         </aside>
 
         <section>
@@ -531,8 +800,36 @@
         </section>
     </main>
 
-    <!-- Sidebars -->
-    <!-- Cart -->
+    <!-- Multi-Filter Sidebar -->
+    <div class="sidebar-modal" id="filterSidebar">
+        <div class="sm-header">
+            <h2>Refine Search</h2>
+            <i class="fas fa-times close-btn" onclick="closeSidebar('filterSidebar')"></i>
+        </div>
+        <div class="sm-body">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Sort By</h3>
+                <select class="filter-select" id="sortBy" onchange="fetchBooks()">
+                    <option value="">Relevance</option>
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="ratingDesc">Top Rated</option>
+                </select>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Price Range</h3>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                    <input type="number" id="minPrice" placeholder="Min" class="filter-select" style="margin:0;"
+                        onchange="fetchBooks()">
+                    <span style="color:var(--text-muted)">-</span>
+                    <input type="number" id="maxPrice" placeholder="Max" class="filter-select" style="margin:0;"
+                        onchange="fetchBooks()">
+                </div>
+            </div>
+            <button class="btn-box btn-fill" style="margin-top: 2rem;" onclick="closeSidebar('filterSidebar')">Apply
+                Filters</button>
+        </div>
+    </div>
     <div class="sidebar-modal" id="cartSidebar">
         <div class="sm-header">
             <h2>Your Cart</h2>
@@ -575,6 +872,61 @@
             <i class="fas fa-times close-btn" onclick="closeSidebar('orderHistory')"></i>
         </div>
         <div class="sm-body" id="orderList"></div>
+    </div>
+
+    <!-- Mobile Mega Menu -->
+    <div class="sidebar-modal" id="mobileMenu">
+        <div class="sm-header">
+            <h2>Menu</h2>
+            <i class="fas fa-times close-btn" onclick="closeSidebar('mobileMenu')"></i>
+        </div>
+        <div class="sm-body">
+            <div class="menu-item-row" onclick="toggleTheme()">
+                <span><i class="fas fa-moon"></i> Dark / Light Mode</span>
+                <i class="fas fa-chevron-right" style="font-size:0.8rem; color:var(--text-muted);"></i>
+            </div>
+            <div class="menu-item-row"
+                onclick="closeSidebar('mobileMenu'); setTimeout(() => openSidebar('orderHistory'), 400)">
+                <span><i class="fas fa-history"></i> Order History</span>
+                <i class="fas fa-chevron-right" style="font-size:0.8rem; color:var(--text-muted);"></i>
+            </div>
+            <a href="/admin.html" class="menu-item-row">
+                <span><i class="fas fa-lock"></i> Admin Dashboard</span>
+                <i class="fas fa-chevron-right" style="font-size:0.8rem; color:var(--text-muted);"></i>
+            </a>
+            <div class="menu-item-row" id="mobileLoginRow"
+                onclick="closeSidebar('mobileMenu'); setTimeout(() => openAuth(), 400)">
+                <span><i class="fas fa-user-circle"></i> <span id="mobileLoginText">Login / Register</span></span>
+                <i class="fas fa-chevron-right" style="font-size:0.8rem; color:var(--text-muted);"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div class="sidebar-modal" id="userDetails">
+        <div class="sm-header">
+            <h2>Account Details</h2>
+            <i class="fas fa-times close-btn" onclick="closeSidebar('userDetails')"></i>
+        </div>
+        <div class="sm-body" style="padding: 2rem; text-align: center;">
+            <div
+                style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--background); font-weight: 700;">
+                <span id="userInitial">U</span>
+            </div>
+            <h3 id="userNameDisplay" style="margin-bottom: 0.5rem;">User Name</h3>
+            <p id="userEmailDisplay" style="color: var(--text-muted); margin-bottom: 2rem;">user@example.com</p>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: left;">
+                <div class="menu-item-row" onclick="closeSidebar('userDetails'); openSidebar('orderHistory')">
+                    <span><i class="fas fa-shopping-bag"></i> My Orders</span>
+                    <i class="fas fa-chevron-right" style="font-size:0.8rem;"></i>
+                </div>
+                <button class="btn-box btn-fill" onclick="logout()"
+                    style="margin-top: 2rem; background: var(--danger); width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i> Logout Information
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Checkout Modal -->
@@ -624,6 +976,10 @@
 
     <div class="toast" id="toast"></div>
 
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
         let state = {
             user: { id: 1, name: "Guest" },
@@ -633,17 +989,96 @@
             orders: [],
             filters: { category: 'All', rating: 0 },
             discount: 0,
-            paymentMethod: 'COD'
+            paymentMethod: 'COD',
+            allCategories: ['All']
         };
 
+        // Carousel Logic
+        let currentSlide = 0;
+        let totalSlides = 0;
+
+        async function fetchBanners() {
+            try {
+                const r = await fetch('/api/banners');
+                const list = await r.json();
+                totalSlides = list.length;
+                if (totalSlides === 0) {
+                    document.querySelector('.carousel-container').style.display = 'none';
+                    return;
+                }
+                const track = document.getElementById('carouselTrack');
+                const wrap = document.getElementById('indicatorWrap');
+                track.style.width = (totalSlides * 100) + '%';
+
+                track.innerHTML = list.map(b => `
+                    <div class="slide" onclick="location.href='${b.link || '#'}'" 
+                         style="width:${100 / totalSlides}%; background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('${b.imageUrl}')">
+                    </div>
+                `).join('');
+
+                wrap.innerHTML = list.map((_, i) => `
+                    <div class="indicator ${i === 0 ? 'active' : ''}" onclick="gotoSlide(${i})"></div>
+                `).join('');
+
+                updateCarousel();
+            } catch (e) { console.error("Banners failed", e); }
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const indicators = document.querySelectorAll('.indicator');
+            if (!track) return;
+            track.style.transform = `translateX(-${currentSlide * (100 / (totalSlides || 1))}%)`;
+            indicators.forEach((ind, i) => ind.classList.toggle('active', i === currentSlide));
+        }
+
+        function nextSlide() {
+            if (totalSlides > 0) {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }
+        }
+
+        function gotoSlide(n) {
+            currentSlide = n;
+            updateCarousel();
+            resetInterval();
+        }
+
+        let slideInterval = setInterval(nextSlide, 5000);
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
         // Init
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             if (localStorage.getItem('theme') === 'light') toggleTheme();
+
+            // Restore Session
+            const savedUser = localStorage.getItem('bookstore_user');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                loginSuccess(user, true); // true means silent login
+            }
+
+            fetchBanners();
+            await fetchAllCategories();
             fetchBooks();
             fetchWishlist();
             refreshCart();
             fetchOrders();
+
+            window.addEventListener('scroll', () => {
+                const btn = document.getElementById('backToTop');
+                if (window.scrollY > 400) btn.classList.add('visible');
+                else btn.classList.remove('visible');
+            });
         });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         const notify = (msg) => {
             const t = document.getElementById('toast');
@@ -673,6 +1108,13 @@
             const res = await fetch(`/api/books?${params}`);
             state.books = await res.json();
             renderBooks();
+        }
+
+        async function fetchAllCategories() {
+            // First hit to get everything to populate the sidebar
+            const res = await fetch('/api/books');
+            const books = await res.json();
+            state.allCategories = ['All', ...new Set(books.map(b => b.category))].filter(Boolean);
             renderCategories();
         }
 
@@ -721,8 +1163,7 @@
 
         function renderCategories() {
             const container = document.getElementById('categoryList');
-            const cats = ['All', ...new Set(state.books.map(b => b.category))].filter(Boolean);
-            container.innerHTML = cats.map(c => `
+            container.innerHTML = state.allCategories.map(c => `
                 <div class="cat-item ${state.filters.category === c ? 'active' : ''}" onclick="setCategory('${c}', this)">
                     ${c}
                 </div>
@@ -759,8 +1200,20 @@
         }
 
         // Logic
-        function setCategory(cat, el) { state.filters.category = cat; fetchBooks(); }
-        function setRating(r, el) { state.filters.rating = r; fetchBooks(); }
+        function setCategory(cat, el) {
+            state.filters.category = cat;
+            fetchBooks();
+            if (window.innerWidth <= 900) toggleFilters(); // Close mobile menu on select
+        }
+        function setRating(r, el) {
+            state.filters.rating = r;
+            fetchBooks();
+            if (window.innerWidth <= 900) toggleFilters(); // Close mobile menu on select
+        }
+
+        function toggleFilters() {
+            document.getElementById('sidebarContent').classList.toggle('mobile-open');
+        }
 
         async function toggleWish(id) {
             const existing = state.wishlist.find(w => w.book.id === id);
@@ -881,16 +1334,48 @@
         }
 
         // Helpers
-        function openSidebar(id) { document.getElementById(id).classList.add('open'); }
+        function openSidebar(id) {
+            const side = document.getElementById(id);
+            side.classList.add('open');
+            const body = side.querySelector('.sm-body');
+            if (body) body.scrollTop = 0;
+        }
         function closeSidebar(id) { document.getElementById(id).classList.remove('open'); }
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function openAuth() { openModal('authModal'); }
-        function doLogin() {
-            state.user.name = document.getElementById('usernameInput').value || "User";
-            document.getElementById('loginBtn').textContent = "Hi, " + state.user.name;
+        function loginSuccess(user, silent = false) {
+            state.user = user;
+            localStorage.setItem('bookstore_user', JSON.stringify(user));
+            const authContainer = document.getElementById('authBtnContainer');
+            if (authContainer) {
+                authContainer.innerHTML = `<button onclick="openSidebar('userDetails')" style="background:var(--primary); color:var(--background); border:none; padding: 0.6rem 1.2rem; border-radius:12px; font-weight:700; cursor:pointer;">Hi, ${user.name.split(' ')[0]}</button>`;
+            }
+
+            // Mobile Update
+            const mText = document.getElementById('mobileLoginText');
+            const mRow = document.getElementById('mobileLoginRow');
+            if (mText) mText.innerText = `Hi, ${user.name.split(' ')[0]}`;
+            if (mRow) mRow.onclick = () => { closeSidebar('mobileMenu'); setTimeout(() => openSidebar('userDetails'), 400); };
+
+            // User Modal Populate
+            if (document.getElementById('userNameDisplay')) document.getElementById('userNameDisplay').innerText = user.name;
+            if (document.getElementById('userEmailDisplay')) document.getElementById('userEmailDisplay').innerText = user.email || (user.name + "@example.com");
+            if (document.getElementById('userInitial')) document.getElementById('userInitial').innerText = user.name.charAt(0).toUpperCase();
+
             closeModal('authModal');
-            notify("Welcome, " + state.user.name);
+            if (!silent) notify("Welcome back, " + user.name);
+        }
+
+        function logout() {
+            localStorage.removeItem('bookstore_user');
+            state.user = { id: 1, name: "Guest" };
+            location.reload();
+        }
+
+        function doLogin() {
+            const name = document.getElementById('usernameInput').value || "User";
+            loginSuccess({ id: 1, name: name, email: name.toLowerCase().replace(' ', '') + "@example.com" });
         }
         function goCheckout() {
             if (state.cart.length === 0) return notify("Cart is empty");
