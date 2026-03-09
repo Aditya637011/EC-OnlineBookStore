@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            padding: 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        /* Tables */
+        .section-card {
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .btn-sm {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .btn-danger {
+            color: var(--danger);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            border-radius: 12px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: 24px;
+            width: 500px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: white;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a href="/" class="logo"><i class="fas fa-book-sparkles"></i> AdminPanel</a>
+        <nav>
+            <a href="#" class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-chart-pie"></i>
+                Dashboard</a>
+            <a href="#" class="nav-link" onclick="showSection('books')"><i class="fas fa-book"></i> Inventory</a>
+            <a href="#" class="nav-link" onclick="showSection('orders')"><i class="fas fa-shopping-bag"></i> Orders</a>
+            <a href="/" class="nav-link"><i class="fas fa-arrow-left"></i> To Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div id="dashboardSection">
+            <div class="header">
+                <h1>Dashboard Overview</h1>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-value" id="statRevenue">₹0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Orders Completed</div>
+                    <div class="stat-value" id="statOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Library</div>
+                    <div class="stat-value" id="statBooks">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Inventory Value</div>
+                    <div class="stat-value" id="statInValue">₹0</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="booksSection" style="display:none;">
+            <div class="header">
+                <h1>Manage Inventory</h1>
+                <button class="btn-primary" onclick="openAddBook()">+ Add New Book</button>
+            </div>
+            <div class="section-card">
+                <table id="booksTable">
+                    <thead>
+                        <tr>
+                            <th>Book Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="ordersSection" style="display:none;">
+            <div class="header">
+                <h1>Global Sales</h1>
+            </div>
+            <div class="section-card">
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="bookModal">
+        <div class="modal">
+            <h2 id="modalTitle">Add Book</h2>
+            <div style="margin-top:1.5rem;">
+                <input id="title" class="input" placeholder="Title">
+                <input id="author" class="input" placeholder="Author">
+                <input id="category" class="input" placeholder="Category (e.g. Horror)">
+                <input id="price" type="number" class="input" placeholder="Price (INR)">
+                <input id="imageUrl" class="input" placeholder="Cover Image URL">
+                <textarea id="desc" class="input" placeholder="Description" style="height:80px;"></textarea>
+                <div style="display:flex; gap:1rem;">
+                    <button class="btn-primary" style="flex:1" onclick="saveBook()">Save Book</button>
+                    <button class="btn-sm" style="flex:1" onclick="closeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allBooks = [];
+        let allOrders = [];
+        let editingId = null;
+
+        async function init() {
+            await Promise.all([refreshBooks(), refreshOrders()]);
+            updateStats();
+        }
+
+        async function refreshBooks() {
+            const r = await fetch('/api/books');
+            allBooks = await r.json();
+            renderBooks();
+        }
+
+        async function refreshOrders() {
+            const r = await fetch('/api/orders/user/1'); // Fetching all (or demo)
+            allOrders = await r.json();
+            renderOrders();
+        }
+
+        function updateStats() {
+            let rev = allOrders.reduce((s, o) => s + o.totalAmount, 0);
+            let val = allBooks.reduce((s, b) => s + b.price, 0);
+            document.getElementById('statRevenue').innerText = '₹' + rev.toFixed(0);
+            document.getElementById('statOrders').innerText = allOrders.length;
+            document.getElementById('statBooks').innerText = allBooks.length;
+            document.getElementById('statInValue').innerText = '₹' + val.toFixed(0);
+        }
+
+        function renderBooks() {
+            const tbody = document.querySelector('#booksTable tbody');
+            tbody.innerHTML = allBooks.slice(0, 50).map(b => `
+                <tr>
+                    <td><b>${b.title}</b></td>
+                    <td>${b.author}</td>
+                    <td><span style="background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:6px;">${b.category}</span></td>
+                    <td>₹${b.price}</td>
+                    <td>
+                        <button class="btn-sm" onclick="editBook(${b.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-sm btn-danger" onclick="deleteBook(${b.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderOrders() {
+            const tbody = document.querySelector('#ordersTable tbody');
+            tbody.innerHTML = allOrders.map(o => `
+                <tr>
+                    <td>#${o.id}</td>
+                    <td>User ${o.userId}</td>
+                    <td style="color:var(--secondary); font-weight:700;">₹${o.totalAmount}</td>
+                    <td><span style="color:var(--primary)">${o.orderStatus}</span></td>
+                    <td style="font-size:0.8rem; color:var(--text-muted)">${o.shippingAddress}</td>
+                </tr>
+            `).join('');
+        }
+
+        function showSection(id) {
+            ['dashboard', 'books', 'orders'].forEach(s => document.getElementById(s + 'Section').style.display = 'none');
+            document.getElementById(id + 'Section').style.display = 'block';
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        function openAddBook() {
+            editingId = null;
+            document.getElementById('modalTitle').innerText = "Add Book";
+            document.querySelectorAll('.input').forEach(i => i.value = '');
+            document.getElementById('bookModal').style.display = 'flex';
+        }
+
+        function editBook(id) {
+            const b = allBooks.find(x => x.id === id);
+            editingId = id;
+            document.getElementById('modalTitle').innerText = "Edit Book";
+            document.getElementById('title').value = b.title;
+            document.getElementById('author').value = b.author;
+            document.getElementById('category').value = b.category;
+            document.getElementById('price').value = b.price;
+            document.getElementById('imageUrl').value = b.coverImageUrl;
+            document.getElementById('desc').value = b.description;
+            document.getElementById('bookModal').style.display = 'flex';
+        }
+
+        async function deleteBook(id) {
+            if (confirm("Are you sure?")) {
+                await fetch('/api/books/admin/' + id, { method: 'DELETE' });
+                refreshBooks();
+            }
+        }
+
+        async function saveBook() {
+            const b = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                category: document.getElementById('category').value,
+                price: parseFloat(document.getElementById('price').value),
+                coverImageUrl: document.getElementById('imageUrl').value,
+                description: document.getElementById('desc').value,
+                publishedDate: "2024-01-01", worldwideSales: "New"
+            };
+            const method = editingId ? 'PUT' : 'POST';
+            const url = editingId ? '/api/books/admin/' + editingId : '/api/books/admin';
+
+            await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(b)
+            });
+            closeModal();
+            refreshBooks();
+        }
+
+        function closeModal() { document.getElementById('bookModal').style.display = 'none'; }
+
+        init();
+    </script>
+</body>
+
+</html>
